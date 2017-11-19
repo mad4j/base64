@@ -90,7 +90,7 @@ void b64Encode() {
 }
 
 
-int b64Decode() {
+void b64Decode() {
 
 	//number of chars read from input stream
 	unsigned int k = 0;
