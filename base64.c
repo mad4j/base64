@@ -1,159 +1,191 @@
-
 /**
  * base64.c
- * Base64 conveterer
+ * Base64 conveterer (see RFC4648)
  * 2017, Daniele Olmisani <daniele.olmisani@gmail.com>
+ * 
+ * see LINCENSE file
+ * 
  */
 
 #include <stdio.h>
 #include <string.h>
 
+//bit masks
+#define _00000011_ 0x03
+#define _00001111_ 0x0F
+#define _00110000_ 0x30
+#define _00111100_ 0x3C
+#define _00111111_ 0x3F
+#define _11111111_ 0xFF
 
-#define MASK_00000011 0x03
-#define MASK_00001111 0x0F
-#define MASK_00110000 0x30
-#define MASK_00111100 0x3C
-#define MASK_00111111 0x3F
-#define MASK_11111111 0xFF
-
+//standard Base64 padding char
 #define PAD_CHAR '='
 
+//byte to charather convetion table
+unsigned char toChar[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-//Base64 char table - used internally for encoding
-unsigned char b64_char[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-unsigned char b64_byte[256];
+//character to byte conversion table (to be initialized)
+unsigned char toByte[256];
 
-void init() {
+/**
+ * initialization of internal structures
+ */
+void init()
+{
 
-	memset(b64_byte, 0, 256);
+	//zeroize each element
+	memset(toByte, 0, 256);
 
-	for (int i=0; i<64; i++) {
-		b64_byte[b64_char[i]] = i;
+	for (int i = 0; i < 64; i++)
+	{
+		//build a reverse map of toChar array
+		toByte[toChar[i]] = i;
 	}
 }
 
-void b64Encode() {
+/**
+ * reads bytes from standard input 
+ * and writes base64 encoded chars on standard outuput
+ */
+void encode()
+{
+
+	//residual bits form input
+	unsigned char bits = 0;
 
 	//number of bytes read from input stream
 	unsigned int k = 0;
 
-	//residual bits form input
-	unsigned char bits = 0;
+	//last byte on input stream
+	int c = 0;
 
-	//last character on input stream
-    int c=0;
+	//read bytes until end of stream
+	while ((c = getchar()) != EOF)
+	{
 
-	//write encoded chars until end of stream
-	while((c = getchar()) != EOF) {
-		
 		//increment couter and process input byte
-		switch (k++ % 3) {
+		switch (k++ % 3)
+		{
 
-			case 0:
-				//output first 6 input bits
-				putchar(b64_char[c >> 2]);
+		case 0:
+			//output first 6 input bits
+			putchar(toChar[c >> 2]);
 
-				//store residual 2 bits
-				bits = (c & MASK_00000011) << 4;
-				break;
+			//store residual 2 bits
+			bits = (c & _00000011_) << 4;
+			break;
 
-			case 1:
-				//output residual 2 bits and first 4 input bits
-				putchar(b64_char[bits | (c >> 4)]);
+		case 1:
+			//output residual 2 bits and first 4 input bits
+			putchar(toChar[bits | (c >> 4)]);
 
-				//store residual 4 bits
-				bits = (c & MASK_00001111) << 2;
-				break;
+			//store residual 4 bits
+			bits = (c & _00001111_) << 2;
+			break;
 
-			case 2:
-				//output residual 4 bits and first 2 bits
-				putchar(b64_char[bits | (c >> 6)]);
+		case 2:
+			//output residual 4 bits and first 2 bits
+			putchar(toChar[bits | (c >> 6)]);
 
-				//output last 6 input bits
-				putchar(b64_char[c & MASK_00111111]);
+			//output last 6 input bits
+			putchar(toChar[c & _00111111_]);
 
-				//no residual bit each 3 input bytes
-				bits = 0;
-				break;
+			//no residual bit each 3 input bytes
+			bits = 0;
+			break;
 		}
 	}
 
 	//flush residual bits if any
-	if (bits > 0) {
-		putchar(b64_char[bits]);
+	if (bits > 0)
+	{
+		putchar(toChar[bits]);
 	}
 
-	//padding chars until TBD
-	while (k++ % 3 > 0) {
+	//padding chars until 4 chars alignment achived
+	while (k++ % 3 > 0)
+	{
 		putchar(PAD_CHAR);
 	}
 }
 
-
-void b64Decode() {
-
-	//number of chars read from input stream
-	unsigned int k = 0;
+/**
+ * reads base64 encoded chars from standard input
+ * and writes bytes to standard output
+ */
+void decode()
+{
 
 	//residual bits form input
 	unsigned char bits = 0;
 
+	//number of chars read from input stream
+	unsigned int k = 0;
+
 	//last character on input stream
 	int c = 0;
 
-	//write decoded byte until end of stream or a pad char
-	while(((c = getchar()) != EOF) && (c != PAD_CHAR)){
+	//read chars until end of stream or a pad char
+	while (((c = getchar()) != EOF) && (c != PAD_CHAR))
+	{
 
-		//conver input char in corresponding byte
-		unsigned char b = b64_byte[c & MASK_11111111];
+		//conver input char in corresponding 6 bits
+		unsigned char b = toByte[c & _11111111_];
 
 		//increment couter and process input byte
-		switch (k++ % 4) {
+		switch (k++ % 4)
+		{
 
-			case 0:
-				//store residual 6 bits
-				bits = b << 2;
-				break;
+		case 0:
+			//store residual 6 bits
+			bits = b << 2;
+			break;
 
-			case 1:
-				//output residual 6 bits and first 2 input bits
-				putchar(bits | ((b & MASK_00110000) >> 4));
+		case 1:
+			//output residual 6 bits and first 2 input bits
+			putchar(bits | ((b & _00110000_) >> 4));
 
-				//store residual 4 bits
-				bits = (b & MASK_00001111) << 4;
-				break;
+			//store residual 4 bits
+			bits = (b & _00001111_) << 4;
+			break;
 
-			case 2:
-				//output residual 4 bits and first 4 input bits
-				putchar(bits | ((b & MASK_00111100) >> 2));
+		case 2:
+			//output residual 4 bits and first 4 input bits
+			putchar(bits | ((b & _00111100_) >> 2));
 
-				//store residual 2 bits
-				bits = (b & MASK_00000011) << 6;
-				break;
+			//store residual 2 bits
+			bits = (b & _00000011_) << 6;
+			break;
 
-			case 3:
-				//output residual 2 bits and last 6 input bits
-				putchar(bits | b);
+		case 3:
+			//output residual 2 bits and last 6 input bits
+			putchar(bits | b);
 
-				//no residual bit each 4 input chars
-				bits = 0;
-				break;
+			//no residual bit each 4 input chars
+			bits = 0;
+			break;
 		}
 	}
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 
 	init();
 
-	if (argc == 1) {
-		b64Encode();
-	} else if ((argc == 2) && (strcmp(argv[1], "-d") == 0)) {
-		b64Decode();
-	} else {
-		printf("usage: base64 [-d] < input > output\n", argv[0]);
+	if (argc == 1)
+	{
+		encode();
+	}
+	else if ((argc == 2) && (strcmp(argv[1], "-d") == 0))
+	{
+		decode();
+	}
+	else
+	{
+		printf("usage: base64 [-d] < input > output\n");
 		return -1;
 	}
 
-    return 0;
+	return 0;
 }
