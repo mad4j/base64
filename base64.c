@@ -1,9 +1,12 @@
 /**
  * base64.c
- * Base64 conveterer (see RFC4648)
+ * RFC4648 Base64 conveterer
  * 2017, Daniele Olmisani <daniele.olmisani@gmail.com>
  * 
  * see LINCENSE file
+ * 
+ * References:
+ *  + https://tools.ietf.org/html/rfc4648
  * 
  */
 
