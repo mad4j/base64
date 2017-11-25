@@ -106,6 +106,9 @@ void encode()
 	}
 
 	//padding chars until 4 chars alignment achived
+	//i.e. B1 B2  B3  ->  A   B   C   D
+	//     B1 B2      ->  A   B   C  '='
+	//     B1         ->  A   B  '=' '='
 	while (k++ % 3 > 0)
 	{
 		putchar(PAD_CHAR);
