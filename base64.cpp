@@ -178,7 +178,7 @@ int main(int argc, char *argv[])
 	{
 		encode();
 	}
-	else if ((argc == 2) && (strcmp(argv[1], "-d") == 0))
+	else if ((argc == 2) && (strncmp(argv[1], "-d", 16) == 0))
 	{
 		decode();
 	}
