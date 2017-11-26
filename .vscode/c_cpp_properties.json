@@ -48,7 +48,8 @@
                 "${workspaceRoot}",
                 "C:/MinGW/include",
                 "C:/MinGW/lib/gcc/mingw32/5.3.0/include",
-                "C:/MinGW/lib/gcc/mingw32/5.3.0/include/c++"
+                "C:/MinGW/lib/gcc/mingw32/5.3.0/include/c++",
+                "C:/MinGW/lib/gcc/mingw32/5.3.0/include/c++/mingw32"
             ],
             "defines": [
                 "_DEBUG",

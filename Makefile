@@ -11,19 +11,19 @@ $(EXE): base64.cpp
 clean:
 	rm -f $(EXE)
 
+
+define test
+	@echo -n "Test $(1)... "
+	@$(EXE) $(2) < tests/$(3).txt | cmp -s tests/$(4).txt -
+	@if [ $$? -eq 0 ] ; then echo "PASSED." ; else echo "FAILED." ; fi
+endef
+
 tests: $(EXE)
 	@echo "Performing encoding tests..."
-	@$(EXE) < tests/test5e.txt | cmp -s tests/test5d.txt -
-	@echo $$?
-	@$(EXE) < tests/test6e.txt | cmp -s tests/test6d.txt -
-	@echo $$?
-	@$(EXE) < tests/test7e.txt | cmp -s tests/test7d.txt -
-	@echo $$?
-	@echo "Performing decoding tests..."
-	@$(EXE) -d < tests/test5d.txt | cmp -s tests/test5e.txt -
-	@echo $$?
-	@$(EXE) -d < tests/test6d.txt | cmp -s tests/test6e.txt -
-	@echo $$?
-	@$(EXE) -d < tests/test7d.txt | cmp -s tests/test7e.txt -
-	@echo $$?
-	@echo "..DONE"
+	$(call test,01,,test5e,test5d)
+	$(call test,02,,test6e,test6d)
+	$(call test,03,,test7e,test7d)
+	$(call test,04,-d,test5d,test5e)
+	$(call test,05,-d,test6d,test6e)
+	$(call test,06,-d,test7d,test7e)
+	@echo "...DONE"
