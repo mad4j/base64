@@ -1,5 +1,5 @@
 /**
- * base64.c
+ * base64.cpp
  * RFC4648 Base64 conveterer
  * 2017, Daniele Olmisani <daniele.olmisani@gmail.com>
  * 
