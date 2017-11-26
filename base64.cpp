@@ -11,16 +11,17 @@
  */
 
 #include <stdio.h>
+#include <stdint.h>
 #include <string.h>
 
 //standard Base64 padding char
 const char PAD_CHAR = '=';
 
 //byte to charather convetion table
-unsigned char toChar[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+char toChar[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 //character to byte conversion table (to be initialized)
-unsigned char toByte[256];
+uint8_t toByte[256];
 
 /**
  * initialization of internal structures
@@ -34,7 +35,7 @@ void init()
 	for (int i = 0; i < 64; i++)
 	{
 		//build a reverse map of toChar array
-		toByte[toChar[i]] = i;
+		toByte[(uint8_t)toChar[i]] = i;
 	}
 }
 
@@ -46,13 +47,13 @@ void encode()
 {
 
 	//residual bits form input
-	unsigned char bits = 0;
+	uint8_t bits = 0;
 
 	//number of bytes read from input stream
-	unsigned int k = 0;
+	uint32_t k = 0;
 
 	//last byte on input stream
-	int c = 0;
+	auto c = 0;
 
 	//read bytes until end of stream
 	while ((c = getchar()) != EOF)
@@ -116,20 +117,20 @@ void decode()
 {
 
 	//residual bits form input
-	unsigned char bits = 0;
+	uint8_t bits = 0;
 
 	//number of chars read from input stream
-	unsigned int k = 0;
+	uint32_t k = 0;
 
 	//last character on input stream
-	int c = 0;
+	auto c = 0;
 
 	//read chars until end of stream or a pad char
 	while (((c = getchar()) != EOF) && (c != PAD_CHAR))
 	{
 
 		//conver input char in corresponding 6 bits
-		unsigned char b = toByte[c & 0b11111111];
+		uint8_t b = toByte[c & 0b11111111];
 
 		//increment couter and process input byte
 		switch (k++ % 4)
