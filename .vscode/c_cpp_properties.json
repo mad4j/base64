@@ -55,6 +55,7 @@
                 "UNICODE"
             ],
             "intelliSenseMode": "clang-x64",
+            "C_Cpp.intelliSenseEngine": "Tag Parser",
             "browse": {
                 "path": [
                     "${workspaceRoot}"

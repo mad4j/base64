@@ -10,15 +10,17 @@
  * 
  */
 
-#include <stdio.h>
-#include <stdint.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdint>
+#include <cstring>
+
+using namespace std;
 
 //standard Base64 padding char
 const char PAD_CHAR = '=';
 
 //byte to charather convetion table
-char toChar[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+uint8_t toChar[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 //character to byte conversion table (to be initialized)
 uint8_t toByte[256];
@@ -32,10 +34,10 @@ void init()
 	//zeroize each array element
 	memset(toByte, 0, 256);
 
+	//build a reverse map of toChar array
 	for (int i = 0; i < 64; i++)
 	{
-		//build a reverse map of toChar array
-		toByte[(uint8_t)toChar[i]] = i;
+		toByte[toChar[i]] = i;
 	}
 }
 
@@ -68,7 +70,6 @@ void encode()
 			putchar(toChar[c >> 2]);
 
 			//store residual 2 bits
-			//bits = (c & _00000011_) << 4;
 			bits = (c & 0b00000011) << 4;
 			break;
 
@@ -183,7 +184,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		printf("usage: base64 [-d] < input > output\n");
+		printf("usage: %s [-d] < input > output\n", argv[0]);
 		return -1;
 	}
 
