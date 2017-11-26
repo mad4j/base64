@@ -19,11 +19,13 @@ define test
 endef
 
 tests: $(EXE)
-	@echo "Performing encoding tests..."
-	$(call test,01,,test5e,test5d)
-	$(call test,02,,test6e,test6d)
-	$(call test,03,,test7e,test7d)
-	$(call test,04,-d,test5d,test5e)
-	$(call test,05,-d,test6d,test6e)
-	$(call test,06,-d,test7d,test7e)
+	@echo "Performing tests..."
+	$(call test,01,,test3e,test3d)
+	$(call test,02,,test4e,test4d)
+	$(call test,03,,test5e,test5d)
+	$(call test,04,,test6e,test6d)
+	$(call test,05,-d,test3d,test3e)
+	$(call test,06,-d,test4d,test4e)
+	$(call test,07,-d,test5d,test5e)
+	$(call test,08,-d,test6d,test6e)
 	@echo "...DONE"
