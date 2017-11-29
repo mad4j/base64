@@ -1,2 +1,4 @@
 # base64
-implementation of Base64 algorithm
+Clean and clear implementation of Base64 algorithm.
+
+
