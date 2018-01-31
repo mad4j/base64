@@ -1,7 +1,7 @@
 CC = g++
 EXE = base64
 
-CFLAGS = -O3 -Wall -Wextra -pedantic -std=c++17
+CFLAGS = -O3 -Wall -Wextra -pedantic -std=c++11
 
 all: $(EXE)
 
