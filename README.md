@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mad4j/base64.svg?branch=master)](https://travis-ci.org/mad4j/base64)
+
 # base64
 Clean and clear implementation of Base64 algorithm.
 
