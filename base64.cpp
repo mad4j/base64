@@ -130,7 +130,7 @@ void decode()
 	while (((c = getchar()) != EOF) && (c != PAD_CHAR))
 	{
 
-		//conver input char in corresponding 6 bits
+		//convert input char in corresponding 6 bits
 		uint8_t b = toByte[c & 0b11111111];
 
 		//increment couter and process input byte
