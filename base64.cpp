@@ -160,7 +160,7 @@ void decode()
 
 		case 3:
 			//output residual 2 bits and last 6 input bits
-			putchar(bits | b);
+			putchar(bits | (b & 0b00111111));
 
 			//no residual bit each 4 input chars
 			bits = 0;
