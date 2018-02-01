@@ -10,11 +10,14 @@
  * 
  */
 
+
 #include <cstdio>
 #include <cstdint>
 #include <cstring>
 
+
 using namespace std;
+
 
 //standard Base64 padding char
 const char PAD_CHAR = '=';
@@ -24,6 +27,7 @@ uint8_t toChar[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567
 
 //character to byte conversion table (to be initialized)
 uint8_t toByte[256];
+
 
 /**
  * initialization of internal structures
@@ -40,6 +44,7 @@ void init()
 		toByte[toChar[i]] = i;
 	}
 }
+
 
 /**
  * reads bytes from standard input 
@@ -110,6 +115,7 @@ void encode()
 	}
 }
 
+
 /**
  * reads base64 encoded chars from standard input
  * and writes bytes to standard output
@@ -168,6 +174,7 @@ void decode()
 		}
 	}
 }
+
 
 int main(int argc, char *argv[])
 {
