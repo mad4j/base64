@@ -1,4 +1,6 @@
-CC = g++
+CC ?= gcc
+CXX ?= g++
+
 EXE = base64
 
 CFLAGS = -O3 -Wall -Wextra -pedantic -std=c++11
@@ -6,7 +8,7 @@ CFLAGS = -O3 -Wall -Wextra -pedantic -std=c++11
 all: $(EXE)
 
 $(EXE): base64.cpp
-	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@
+	$(CXX) $(CFLAGS) $(CPPFLAGS) $^ -o $@
 
 clean:
 	rm -f $(EXE)
