@@ -1,7 +1,7 @@
 language: cpp
 compiler: gcc
 script:
-  - $(CXX) --version
+  - $CXX --version
   - make all
   - make tests
 addons:
@@ -9,9 +9,9 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-        - g++-5
+      - g++-5
     env:
-        - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
 before_install:
   - eval "${MATRIX_EVAL}"
 
