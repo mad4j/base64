@@ -3,7 +3,8 @@ CXX ?= g++
 
 EXE = base64
 
-CFLAGS = -O3 -Wall -Wextra -pedantic -std=c++17
+#needed -sdt=c++17 to remove all warnings
+CFLAGS = -O3 -Wall -Wextra -pedantic -std=c++11
 
 all: $(EXE)
 
