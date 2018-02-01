@@ -3,7 +3,7 @@ CXX ?= g++
 
 EXE = base64
 
-CFLAGS = -O3 -Wall -Wextra -pedantic -std=c++11
+CFLAGS = -O3 -Wall -Wextra -pedantic -std=c++17
 
 all: $(EXE)
 

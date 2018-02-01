@@ -22,7 +22,7 @@ using namespace std;
 //standard Base64 padding char
 const char PAD_CHAR = '=';
 
-//byte to charather convetion table
+//byte to charather convertion table
 uint8_t toChar[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 //character to byte conversion table (to be initialized)
