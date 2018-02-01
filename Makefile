@@ -14,7 +14,7 @@ clean:
 
 define test
 	@echo -n "Test $(1)... "
-	@$(EXE) $(2) < tests/$(3).txt | cmp -s tests/$(4).txt -
+	@$(EXE) $(2) < tests/$(3).txt | xargs echo -n | cmp -s tests/$(4).txt -
 	@if [ $$? -eq 0 ] ; then echo "PASSED." ; else echo "FAILED." ; fi
 endef
 
