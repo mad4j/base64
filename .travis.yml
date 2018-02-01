@@ -1,4 +1,5 @@
 language: cpp
 compiler: gcc
 script:
-  make all && make tests
+  - make all
+  - make tests
